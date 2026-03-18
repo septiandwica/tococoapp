@@ -49,16 +49,44 @@
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.1),transparent)]"></div>
         <div class="absolute inset-0 bg-linear-to-b from-brand-forest/0 to-brand-charcoal/20"></div>
         
-        <div class="container-tococo relative z-10">
+        <div class="container-tococo relative z-10" x-data="{
+            animateValue(el, start, end, duration, padZero) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const easeProgress = 1 - Math.pow(1 - progress, 3); // ease out cubic
+                    let current = Math.floor(easeProgress * (end - start) + start);
+                    el.innerText = padZero ? String(current).padStart(2, '0') : current;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    } else {
+                        el.innerText = padZero ? String(end).padStart(2, '0') : end;
+                    }
+                };
+                window.requestAnimationFrame(step);
+            },
+            observe(targetEl, start, end, padZero = false) {
+                let observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            this.animateValue(targetEl, start, end, 2000, padZero);
+                            observer.unobserve(targetEl);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                observer.observe(targetEl);
+            }
+        }">
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-golden-md">
                 <div class="text-center group border-r border-white/5 last:border-0">
                     <span class="golden-caption text-brand-emerald mb-golden-base block">Suppliers</span>
-                    <span class="golden-h2 text-brand-emerald drop-shadow-[0_0_15px_rgba(16,185,129,0.3)] block">100<span class="text-white/20">+</span></span>
+                    <span class="golden-h2 text-brand-emerald drop-shadow-[0_0_15px_rgba(16,185,129,0.3)] block"><span x-init="observe($el, 0, 100)">0</span><span class="text-white/20">+</span></span>
                     <p class="golden-caption text-white/60 mt-3 block font-medium">Local Farmers</p>
                 </div>
                 <div class="text-center group border-r border-white/5 last:border-0">
                     <span class="golden-caption text-brand-emerald mb-golden-base block">Founded</span>
-                    <span class="golden-h2 text-white block">2020</span>
+                    <span class="golden-h2 text-white block" x-init="observe($el, 0, 2020)">0</span>
                     <p class="golden-caption text-white/60 mt-3 block font-medium">Banyumas, ID</p>
                 </div>
                 <div class="text-center group border-r border-white/5 last:border-0">
@@ -68,7 +96,7 @@
                 </div>
                 <div class="text-center group">
                     <span class="golden-caption text-brand-emerald mb-golden-base block">Network</span>
-                    <span class="golden-h2 text-white block">04</span>
+                    <span class="golden-h2 text-white block" x-init="observe($el, 0, 4, true)">00</span>
                     <p class="golden-caption text-white/60 mt-3 block font-medium">Partner Villages</p>
                 </div>
             </div>
@@ -255,26 +283,39 @@
 
             <!-- Slider Content -->
             <div class="relative grid grid-cols-1 grid-rows-1 overflow-hidden bg-transparent">
-                <template x-for="(slide, index) in slides" :key="index">
-                    <img :src="slide" 
-                         x-show="activeSlide === index"
-                         x-transition:enter="transition ease-in-out duration-700"
-                         x-transition:enter-start="opacity-0 scale-105"
-                         x-transition:enter-end="opacity-100 scale-100"
-                         x-transition:leave="transition ease-in-out duration-700"
-                         x-transition:leave-start="opacity-100 scale-100"
-                         x-transition:leave-end="opacity-0 scale-95"
-                         class="col-start-1 row-start-1 w-full h-auto max-h-[85vh] object-contain shadow-inner"
-                         alt="Event Image">
-                </template>
+                <!-- Pre-rendered images to force instant loading by browser -->
+                <img src="/pop-up/haus-market.jpg" 
+                     x-show="activeSlide === 0"
+                     fetchpriority="high"
+                     x-transition:enter="transition ease-in-out duration-700"
+                     x-transition:enter-start="opacity-0 scale-105"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in-out duration-700"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="col-start-1 row-start-1 w-full h-auto max-h-[85vh] object-contain shadow-inner"
+                     alt="Event Image 1">
+                     
+                <img src="/pop-up/tripoli.jpg" 
+                     x-show="activeSlide === 1"
+                     fetchpriority="high"
+                     x-transition:enter="transition ease-in-out duration-700"
+                     x-transition:enter-start="opacity-0 scale-105"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in-out duration-700"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     class="col-start-1 row-start-1 w-full h-auto max-h-[85vh] object-contain shadow-inner"
+                     alt="Event Image 2">
 
                 <!-- Navigation Dots -->
                 <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-2 z-10">
-                    <template x-for="(slide, index) in slides" :key="index">
-                        <button @click="activeSlide = index" 
-                                class="w-2.5 h-2.5 rounded-full transition-all duration-300"
-                                :class="activeSlide === index ? 'bg-brand-emerald w-8' : 'bg-white/50 hover:bg-white' shadow-sm"></button>
-                    </template>
+                    <button @click="activeSlide = 0" 
+                            class="w-2.5 h-2.5 rounded-full transition-all duration-300 shadow-sm"
+                            :class="activeSlide === 0 ? 'bg-brand-emerald w-8' : 'bg-white/50 hover:bg-white'"></button>
+                    <button @click="activeSlide = 1" 
+                            class="w-2.5 h-2.5 rounded-full transition-all duration-300 shadow-sm"
+                            :class="activeSlide === 1 ? 'bg-brand-emerald w-8' : 'bg-white/50 hover:bg-white'"></button>
                 </div>
             </div>
         </div>
