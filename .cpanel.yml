@@ -8,7 +8,7 @@
 ---
 deployment:
   tasks:
-    # Ganti 'username' dengan username cPanel Anda
-    - export DEPLOYPATH=/home/username/public_html/
+    # Target folder di cPanel (disesuaikan dengan username Anda: tococoi1)
+    - export DEPLOYPATH=/home/tococoi1/public_html/
     - /bin/cp -R * $DEPLOYPATH
     - /bin/rm $DEPLOYPATH/.cpanel.yml
