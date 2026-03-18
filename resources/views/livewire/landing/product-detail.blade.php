@@ -298,7 +298,6 @@
                                 </div>
                             @endif
                         </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -309,8 +308,8 @@
 @push('meta')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org/",
-  "@type": "Product",
+  "@@context": "https://schema.org/",
+  "@@type": "Product",
   "name": "{{ $product->name }}",
   "image": [
     "{{ $ogImage ?? asset('hero.png') }}"
@@ -318,17 +317,17 @@
   "description": "{{ $product->description }}",
   "sku": "{{ $product->slug }}",
   "brand": {
-    "@type": "Brand",
+    "@@type": "Brand",
     "name": "Tococo Indonesia"
   },
   "offers": {
-    "@type": "Offer",
+    "@@type": "Offer",
     "url": "{{ url()->current() }}",
     "priceCurrency": "IDR",
     "price": "0",
     "availability": "https://schema.org/InStock",
     "seller": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "Tococo Indonesia"
     }
   }
