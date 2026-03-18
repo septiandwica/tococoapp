@@ -12,7 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            //
+            $table->string('price')->nullable()->after('image');
+            $table->json('gallery')->nullable()->after('price');
+            $table->json('variants')->nullable()->after('gallery');
+            $table->json('faqs')->nullable()->after('variants');
         });
     }
 
@@ -22,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('products', function (Blueprint $table) {
-            //
+            $table->dropColumn(['price', 'gallery', 'variants', 'faqs']);
         });
     }
 };
