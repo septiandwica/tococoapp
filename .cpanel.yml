@@ -1,0 +1,14 @@
+# Laravel cPanel Auto-Deployment
+# ------------------------------
+# 1. Simpan file ini di root folder project Anda.
+# 2. Sesuaikan DEPLOYPATH dengan lokasi folder public_html Anda.
+# 3. Jalankan 'git commit' & 'git push' ke repo Git Anda.
+# 4. Tekan tombol 'Deploy' di menu Git Version Control cPanel.
+
+---
+deployment:
+  tasks:
+    # Ganti 'username' dengan username cPanel Anda
+    - export DEPLOYPATH=/home/username/public_html/
+    - /bin/cp -R * $DEPLOYPATH
+    - /bin/rm $DEPLOYPATH/.cpanel.yml
