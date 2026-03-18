@@ -24,5 +24,5 @@ Route::domain(env('CAREER_DOMAIN'))->group(function () {
 
 // 4. Community App (Frontend untuk Member)
 Route::domain(env('COMMUNITY_DOMAIN'))->group(function () {
-    Route::get('/', \App\Livewire\Community\Dashboard::class);
+    Route::get('/', \App\Livewire\Community\Dashboard::class)->name('comunity.index');
 });

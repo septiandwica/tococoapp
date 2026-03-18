@@ -20,8 +20,23 @@ class ProductDetail extends Component
             ->layoutData([
                 'title' => $this->product->name . ' — ' . ($this->product->tagline ?? 'Pure Coconut Excellence') . ' | Tococo',
                 'metaDescription' => \Illuminate\Support\Str::limit($this->product->description, 160),
-                'ogImage' => $this->product->image ? \Illuminate\Support\Facades\Storage::url($this->product->image) : asset('hero.png'),
+                'ogImage' => $this->resolveImageUrl($this->product->image),
             ])
             ->layout('components.layouts.landing');
+    }
+
+    private function resolveImageUrl($image)
+    {
+        if (!$image) return asset('hero.png');
+
+        if (str_starts_with($image, 'http')) {
+            return $image;
+        }
+
+        if (file_exists(public_path($image))) {
+            return asset($image);
+        }
+
+        return \Illuminate\Support\Facades\Storage::url($image);
     }
 }

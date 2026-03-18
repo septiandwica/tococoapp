@@ -14,6 +14,7 @@ class Products extends Component
             ->layoutData([
                 'title' => 'Our Products — Sustainable Coconut Innovation | Tococo Indonesia',
                 'metaDescription' => 'Explore our range of premium coconut-aligned products: Tococo Chips, ALCOCO Virgin Coconut Oil, COCOFE, and COPA.',
-            ]);
+            ])
+            ->layout('components.layouts.landing');
     }
 }

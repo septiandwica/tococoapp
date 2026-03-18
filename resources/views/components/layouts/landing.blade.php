@@ -73,7 +73,7 @@
                         <x-nav-link href="{{ route('landing.products') }}" :active="request()->routeIs('landing.products')">Products</x-nav-link>
                         <x-nav-link href="{{ route('news.index') }}" :active="request()->routeIs('news.*')">News</x-nav-link>
                         <x-nav-link href="{{ route('career.index') }}" :active="request()->routeIs('career.*')">Career</x-nav-link>
-                        <x-nav-link href="#">Community</x-nav-link>
+                        <x-nav-link href="{{ route('comunity.index') }}" :active="request()->routeIs('comunity.*')">Community</x-nav-link>
                     </div>
                     
                     <!-- Mobile Menu Toggle -->
@@ -96,7 +96,7 @@
                 <a href="{{ route('landing.products') }}" class="block golden-caption hover:text-brand-emerald transition-colors">Products</a>
                 <a href="{{ route('news.index') }}" class="block golden-caption hover:text-brand-emerald transition-colors">News</a>
                 <a href="{{ route('career.index') }}" class="block golden-caption hover:text-brand-emerald transition-colors">Career</a>
-                <a href="#" class="block golden-caption hover:text-brand-emerald transition-colors">Community</a>
+                <a href="{{ route('comunity.index') }}" class="block golden-caption hover:text-brand-emerald transition-colors">Community</a>
             </div>
         </nav>
 
@@ -141,7 +141,7 @@
                             <ul class="space-y-4">
                                 <li><a href="{{ route('news.index') }}" class="footer-link">News</a></li>
                                 <li><a href="{{ route('career.index') }}" class="footer-link">Career</a></li>
-                                <li><a href="#" class="footer-link">Community</a></li>
+                                <li><a href="{{ route('comunity.index') }}" class="footer-link">Community</a></li>
                             </ul>
                         </div>
                     </div>

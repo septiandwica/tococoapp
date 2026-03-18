@@ -3,8 +3,23 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ $title ?? 'Tococo Community - Connect. Share. Grow.' }}</title>
+        <title>{{ $title ?? 'Tococo Community — Connect & Grow' }}</title>
         
+        <!-- Primary Meta Tags -->
+        <meta name="title" content="{{ $title ?? 'Tococo Community — Connect & Grow' }}">
+        <meta name="description" content="{{ $metaDescription ?? 'Join the Tococo Community. Connect with farmers, innovators, and sustainability advocates.' }}">
+        <meta name="author" content="Tococo Indonesia">
+        <meta name="robots" content="index, follow">
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="{{ $title ?? 'Tococo Community — Connect & Grow' }}">
+        <meta property="og:description" content="{{ $metaDescription ?? 'Join a thriving community dedicated to sustainable coconut innovation.' }}">
+        <meta property="og:image" content="{{ $ogImage ?? asset('hero.png') }}">
+
+        @stack('meta')
+
         <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
         <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
         <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
@@ -25,78 +40,107 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cardo:italic,wght@0,400;0,700;1,400&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     </head>
-    <body class="antialiased bg-[#0B0F19] text-gray-300 font-sans selection:bg-orange-500 selection:text-white">
-        <!-- Dashboard Navigation -->
-        <nav class="fixed top-0 w-full z-50 bg-[#111827]/80 backdrop-blur-xl border-b border-gray-800 transition-all duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <div class="flex-shrink-0 flex items-center gap-3">
-                        <a href="{{ route('community.index') ?? '/' }}" class="flex items-center gap-2 group">
-                            <img src="/icon/icon.png" alt="Tococo Icon" class="h-8 w-auto sm:hidden group-hover:scale-105 transition-transform duration-300">
-                            <img src="/icon/text-icon.png" alt="Tococo Logo" class="h-8 w-auto hidden sm:block group-hover:scale-105 transition-transform duration-300">
+    <body class="antialiased bg-brand-white text-brand-charcoal selection:bg-brand-emerald/10 selection:text-brand-emerald" x-data="{ mobileMenuOpen: false }">
+        <!-- Navigation -->
+        <nav class="fixed w-full z-100 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-gray-100">
+            <div class="container-tococo">
+                <div class="flex justify-between items-center h-20">
+                    <div class="flex-shrink-0">
+                        <a href="{{ route('landing.home') }}" class="flex items-center gap-3 group">
+                            <img src="/icon/icon.png" alt="Tococo Icon" class="h-9 w-auto md:hidden group-hover:scale-105 transition-transform duration-300">
+                            <img src="/icon/text-icon.png" alt="Tococo Logo" class="h-9 w-auto hidden md:block group-hover:scale-105 transition-transform duration-300">
                         </a>
                     </div>
-                    <div class="hidden md:flex space-x-1">
-                        <a href="http://tococoindonesia.com" class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Main Hub</a>
-                        <a href="http://news.tococoindonesia.com" class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">News</a>
-                        <a href="http://career.tococoindonesia.com" class="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Career</a>
+                    
+                    <div class="hidden lg:flex space-x-10">
+                        <x-nav-link href="{{ route('landing.home') }}" :active="false">Home</x-nav-link>
+                        <x-nav-link href="{{ route('landing.about') }}" :active="false">About</x-nav-link>
+                        <x-nav-link href="{{ route('landing.products') }}" :active="false">Products</x-nav-link>
+                        <x-nav-link href="{{ route('news.index') }}" :active="request()->routeIs('news.*')">News</x-nav-link>
+                        <x-nav-link href="{{ route('career.index') }}" :active="request()->routeIs('career.*')">Career</x-nav-link>
+                        <x-nav-link href="{{ route('comunity.index') }}" :active="request()->routeIs('comunity.*')">Community</x-nav-link>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <div class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center cursor-pointer hover:border-gray-500 transition-colors">
-                            <i data-lucide="bell" class="w-4 h-4 text-gray-400"></i>
-                        </div>
-                        <a href="http://comunity.tococoindonesia.com/admin" class="flex items-center gap-2 px-3 py-1.5 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-full transition-colors cursor-pointer">
-                            <div class="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-rose-400 flex items-center justify-center text-xs font-bold text-white shadow-inner">
-                                C
-                            </div>
-                            <span class="text-sm font-medium text-white hidden sm:block">Login Space</span>
-                        </a>
-                    </div>
+                    
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="lg:hidden p-2 text-brand-charcoal hover:bg-gray-50 rounded-lg transition-colors">
+                        <svg x-show="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                        <svg x-show="mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
                 </div>
+            </div>
+
+            <div x-show="mobileMenuOpen" 
+                 x-transition:enter="transition ease-out duration-200"
+                 @click.away="mobileMenuOpen = false"
+                 class="lg:hidden bg-white border-b border-gray-100 p-golden-md space-y-golden-base shadow-xl">
+                <a href="{{ route('landing.home') }}" class="block golden-caption">Home</a>
+                <a href="{{ route('landing.about') }}" class="block golden-caption">About</a>
+                <a href="{{ route('landing.products') }}" class="block golden-caption">Products</a>
+                <a href="{{ route('news.index') }}" class="block golden-caption">News</a>
+                <a href="{{ route('career.index') }}" class="block golden-caption">Career</a>
+                <a href="{{ route('comunity.index') }}" class="block golden-caption text-brand-emerald">Community</a>
             </div>
         </nav>
 
-        <div class="flex min-h-screen pt-16">
-            <!-- Sidebar Navigation -->
-            <aside class="w-64 fixed hidden lg:block h-[calc(100vh-4rem)] bg-[#111827] border-r border-gray-800/60 overflow-y-auto">
-                <div class="p-4 space-y-1">
-                    <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 mt-4">Dashboard</p>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 bg-gray-800/50 text-white rounded-lg group border border-gray-700/50">
-                        <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                        <span class="font-medium text-sm">Feed</span>
-                    </a>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg group transition-colors">
-                        <svg class="w-5 h-5 group-hover:text-rose-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span class="font-medium text-sm">Targeted Events</span>
-                    </a>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg group transition-colors">
-                        <svg class="w-5 h-5 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        <span class="font-medium text-sm">Member Directory</span>
-                    </a>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg group transition-colors">
-                        <svg class="w-5 h-5 group-hover:text-indigo-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
-                        <span class="font-medium text-sm">Discussions</span>
-                    </a>
-                    
-                    <div class="mt-8"></div>
-                    <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">My Space</p>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg group transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                        <span class="font-medium text-sm">Profile</span>
-                    </a>
-                    <a href="#" class="flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-lg group transition-colors">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        <span class="font-medium text-sm">Settings</span>
-                    </a>
-                </div>
-            </aside>
+        <main class="min-h-screen pt-20">
+            {{ $slot }}
+        </main>
 
-            <!-- Main Workspace -->
-            <main class="flex-1 lg:ml-64 p-4 lg:p-8">
-                {{ $slot }}
-            </main>
-        </div>
+        <!-- Footer -->
+        <footer class="bg-brand-light text-brand-charcoal section-golden border-t border-gray-100">
+            <div class="container-tococo">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-golden-md md:gap-golden-base">
+                    <div class="md:col-span-5">
+                        <div class="flex items-center gap-3 mb-golden-base">
+                            <img src="/icon/full-icon.png" alt="Tococo Logo" class="h-20 w-auto">
+                        </div>
+                        <p class="golden-body mb-golden-md">
+                            Sharing knowledge, heritage, and the future of coconut excellence with our global community.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand-emerald hover:bg-brand-emerald hover:text-white transition-all duration-300">
+                                <i data-lucide="linkedin" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand-emerald hover:bg-brand-emerald hover:text-white transition-all duration-300">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <h3 class="golden-caption text-brand-emerald mb-golden-base block opacity-80">Navigate</h3>
+                        <div class="grid grid-cols-2 gap-golden-sm">
+                            <ul class="space-y-4">
+                                <li><a href="{{ route('landing.home') }}" class="footer-link">Home</a></li>
+                                <li><a href="{{ route('landing.about') }}" class="footer-link">About</a></li>
+                                <li><a href="{{ route('landing.products') }}" class="footer-link">Products</a></li>
+                            </ul>
+                            <ul class="space-y-4">
+                                <li><a href="{{ route('news.index') }}" class="footer-link">News</a></li>
+                                <li><a href="{{ route('career.index') }}" class="footer-link">Career</a></li>
+                                <li><a href="{{ route('comunity.index') }}" class="footer-link">Community</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-4 flex flex-col items-start md:items-end text-left md:text-right">
+                        <h3 class="golden-caption text-brand-emerald mb-golden-base block opacity-80">Connect</h3>
+                        <div class="space-y-1">
+                            <a href="mailto:community@tococoindonesia.com" class="block text-sm font-bold text-brand-emerald hover:text-brand-forest transition-all">
+                                community@tococoindonesia.com
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-golden-xl pt-golden-base border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-golden-sm">
+                    <p class="golden-caption">© {{ date('Y') }} Tococo Indonesia. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
 
         @livewireScripts
     </body>

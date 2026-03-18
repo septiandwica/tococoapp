@@ -31,7 +31,23 @@
                     <div class="group relative w-full aspect-square rounded-[2rem] overflow-hidden bg-brand-light shadow-xl shadow-brand-emerald/5 transition-all duration-700">
                         <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal/5 to-transparent pointer-events-none"></div>
                         @php
-                            $productImage = $product->image ? Storage::url($product->image) : null;
+                            $productImage = null;
+                            if ($product->image) {
+                                // Check if it's an absolute URL
+                                if (str_starts_with($product->image, 'http')) {
+                                    $productImage = $product->image;
+                                } 
+                                // Check if it exists in public folder (seeded images)
+                                elseif (file_exists(public_path($product->image))) {
+                                    $productImage = asset($product->image);
+                                }
+                                // Fallback to storage URL (uploaded images)
+                                else {
+                                    $productImage = Storage::url($product->image);
+                                }
+                            }
+
+                            // Manual Fallback if still null
                             if (!$productImage) {
                                 $lowName = strtolower($product->name);
                                 if (str_contains($lowName, 'chips')) $productImage = asset('product/tococo.png');
@@ -60,8 +76,20 @@
                     @if($product->gallery && count($product->gallery) > 1)
                         <div class="grid grid-cols-4 gap-golden-sm w-full">
                             @foreach($product->gallery as $image)
+                                @php
+                                    $galleryImage = null;
+                                    if ($image) {
+                                        if (str_starts_with($image, 'http')) {
+                                            $galleryImage = $image;
+                                        } elseif (file_exists(public_path($image))) {
+                                            $galleryImage = asset($image);
+                                        } else {
+                                            $galleryImage = Storage::url($image);
+                                        }
+                                    }
+                                @endphp
                                 <div class="aspect-square rounded-xl overflow-hidden bg-brand-light border border-transparent hover:border-brand-emerald/50 cursor-pointer transition-all hover:scale-105">
-                                    <img src="{{ Storage::url($image) }}" alt="Gallery Image" class="w-full h-full object-cover">
+                                    <img src="{{ $galleryImage }}" alt="Gallery Image" class="w-full h-full object-cover">
                                 </div>
                             @endforeach
                         </div>
