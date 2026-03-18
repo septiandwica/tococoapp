@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+@source "../../app/Livewire/**/*.php";
+@source "../../app/Filament/**/*.php";
+
+@theme {
+    /* Fonts */
+    --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: "Cardo", Georgia, serif;
+    
+    /* Modern Emerald Palette */
+    --color-brand-emerald: #10b981;   /* Vibrant Premium Green */
+    --color-brand-forest: #064e3b;    /* Deep Contrast Green */
+    --color-brand-white: #ffffff;     /* Base White */
+    --color-brand-light: #f9fafb;     /* Light Gray for sections */
+    --color-brand-charcoal: #111827;  /* Deep Neutral for text */
+
+    /* 
+     * GOLDEN RATIO TYPOGRAPHY (Base 16px, Ratio 1.618) 
+     * Native Tailwind v4 text sizes (e.g., text-golden-h1)
+     */
+    --text-golden-caption: 0.625rem; /* 16 / 1.618 ≈ 10px */
+    --text-golden-body: 1rem;        /* Base: 16px */
+    --text-golden-h3: 1.625rem;      /* 16 * 1.618 ≈ 26px */
+    --text-golden-h2: 2.625rem;      /* 26 * 1.618 ≈ 42px */
+    --text-golden-h1: 4.25rem;       /* 42 * 1.618 ≈ 68px */
+
+    /* 
+     * GOLDEN RATIO SPACING (Base 20px, Ratio 1.618)
+     * Native Tailwind v4 spacing (e.g., p-golden-base, gap-golden-md)
+     */
+    --spacing-golden-sm: 0.75rem;    /* 20 / 1.618 ≈ 12px */
+    --spacing-golden-base: 1.25rem;  /* Base: 20px */
+    --spacing-golden-md: 2rem;       /* 20 * 1.618 ≈ 32px */
+    --spacing-golden-lg: 3.25rem;    /* 32 * 1.618 ≈ 52px */
+    --spacing-golden-xl: 5.31rem;    /* 52 * 1.618 ≈ 85px */
+
+    /* Balanced Animations */
+    --animate-reveal: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    --animate-float: float 6s ease-in-out infinite;
+
+    @keyframes reveal {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+}
+
+@layer utilities {
+    /* 
+       ========================================
+       GOLDEN RATIO SEMANTIC UTILITIES
+       ========================================
+    */
+
+    /* Typography */
+    .golden-h1 {
+        @apply text-golden-h2 md:text-golden-h1 font-black leading-tight tracking-tight;
+    }
+    .golden-h2 {
+        @apply text-golden-h3 md:text-golden-h2 font-black leading-tight tracking-tight;
+    }
+    .golden-h3 {
+        @apply text-golden-body md:text-golden-h3 font-bold leading-snug;
+    }
+    .golden-body {
+        /* Optimal Golden Line Height 1.618 */
+        @apply text-golden-body leading-[1.618];
+        /* Optimal Reading Width: 50-75 chars */
+        max-width: 75ch; 
+    }
+    .golden-caption {
+        @apply text-golden-caption font-bold uppercase tracking-widest;
+    }
+
+    /* Layout & Spacing */
+    .section-golden {
+        @apply py-golden-lg md:py-golden-xl;
+    }
+    .container-tococo {
+        @apply container mx-auto px-6 md:px-golden-md;
+    }
+
+    /* 
+       ========================================
+       COMPONENT BRANDING
+       ========================================
+    */
+    
+    .badge-tococo {
+        @apply inline-flex items-center px-golden-sm py-1 rounded-full bg-brand-emerald/10 border border-brand-emerald/20 text-golden-caption text-brand-emerald;
+    }
+
+    .btn-tococo-primary {
+        @apply relative inline-flex items-center justify-center px-golden-md py-[calc(var(--spacing-golden-sm))] bg-brand-emerald text-white rounded-xl 
+               font-bold uppercase tracking-widest text-golden-caption transition-all duration-300 
+               hover:bg-brand-forest hover:shadow-[0_8px_30px_rgb(16,185,129,0.3)] hover:-translate-y-0.5;
+    }
+
+    .btn-tococo-secondary {
+        @apply relative inline-flex items-center text-golden-caption text-brand-charcoal hover:text-brand-emerald transition-all 
+               after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2px] 
+               after:bg-brand-emerald/20 hover:after:bg-brand-emerald after:transition-all;
+    }
+
+    .tococo-card {
+        @apply bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:border-brand-emerald/20 transition-all duration-500 rounded-2xl p-golden-base md:p-golden-md;
+    }
+
+    .footer-link {
+        @apply text-golden-caption text-brand-charcoal/30 hover:text-brand-emerald transition-all duration-300;
+    }
+}
