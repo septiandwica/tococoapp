@@ -155,9 +155,8 @@
                                     flavor: 'Original',
                                     bakedFlavors: {
                                         'Original': 'Pure tropical bliss in every bite — sliced thin and roasted to preserve a natural sweetness and crunchy texture. 100% natural and light.',
-                                        'Ginger': 'Feel the tropical crunch with a spicy twist! Tococo Ginger Chips combine the natural sweetness of coconut with the warm, zesty kick of real ginger.',
-                                        'Caramel': 'Golden, sweet, and irresistibly crunchy! A perfect harmony of toasted coconut and smooth caramel flavor — a delightful treat in every bite.',
-                                        'Cinamon': 'Wake up your senses with a bold coffee flavor blended into crispy coconut chips. Perfect for coffee lovers looking for an energizing snack.'
+                                        'Cinnamon': 'Feel the tropical crunch with a warm, zesty kick! A perfect harmony of toasted coconut and smooth cinnamon flavor.',
+                                        'Chocolate': 'A blissful combination of toasted coconut with the rich, sweet aroma of melted chocolate. A melting delight for all ages.'
                                     },
                                     friedFlavors: {
                                         'Original Coconut': 'Feel the refreshing crunch of coconut — soft, savory, and aromatic. The ultimate coconut sensation in every bite.',

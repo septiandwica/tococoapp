@@ -16,18 +16,18 @@ class ProductSeeder extends Seeder
                 'name' => 'Tococo Chips',
                 'tagline' => 'Tropical coconut chips',
                 'slug' => 'tococo',
-                'description' => 'Experience the tropical taste of Indonesia with our Tococo Chips. Available in Baked and Fried styles with exciting flavors — 100% real coconut, crafted for guilt-free indulgence.',
+                'description' => 'Experience the tropical taste of Indonesia with our Tococo Chips. Available in two specifications: Baked (Original, Cinnamon, Chocolate) and Fried — 100% real coconut, crafted for guilt-free indulgence.',
                 'image' => 'product/tococo.png',
                 'price' => 25000,
                 'gallery' => null,
-                'variants' => ['Baked Style', 'Fried Style'],
+                'variants' => ['Baked', 'Fried'],
                 'faqs' => [
                     ['q' => 'Are Tococo Chips made from natural ingredients?', 'a' => 'Yes, our chips are made from 100% real coconut harvested from sustainably managed farms.'],
                     ['q' => 'Are these chips gluten-free?', 'a' => 'Absolutely. Tococo Chips are naturally gluten-free and vegan-friendly.'],
-                    ['q' => 'What is the difference between Baked and Fried?', 'a' => 'Baked chips are roasted for a light, crunchy texture, while Fried style provides a more traditional savory crispiness.'],
+                    ['q' => 'What flavors are available?', 'a' => 'Our Tococo Chips come in Baked (Original, Cinnamon, Chocolate) and various Fried flavors including Original Coconut, Chocolate, Balado, and Matcha.'],
                 ],
                 'external_links' => [
-                    'shopee' => 'https://shopee.co.id/tococochipsofficial',
+                    'shopee' => 'https://shopee.co.id/tococoindonesia',
                     'tiktok' => 'https://www.tiktok.com/@tococoindonesiaofficial'
                 ],
                 'is_active' => true,
@@ -47,7 +47,7 @@ class ProductSeeder extends Seeder
                     ['q' => 'Can I use ALCOCO for skin and hair?', 'a' => 'Certainly. Its natural purity makes it an excellent organic moisturizer for both skin and hair care routines.'],
                 ],
                 'external_links' => [
-                    'shopee' => 'https://shopee.co.id/tococochipsofficial',
+                    'shopee' => 'https://shopee.co.id/tococoindonesia',
                     'tiktok' => 'https://www.tiktok.com/@tococoindonesiaofficial'
                 ],
                 'is_active' => true,
@@ -67,7 +67,7 @@ class ProductSeeder extends Seeder
                     ['q' => 'Is COCOFE suitable for vegans?', 'a' => 'Yes, COCOFE is 100% plant-based and contains no dairy or animal-derived ingredients.'],
                 ],
                 'external_links' => [
-                    'shopee' => 'https://shopee.co.id/tococochipsofficial',
+                    'shopee' => 'https://shopee.co.id/tococoindonesia',
                     'tiktok' => 'https://www.tiktok.com/@tococoindonesiaofficial'
                 ],
                 'is_active' => true,
@@ -87,7 +87,7 @@ class ProductSeeder extends Seeder
                     ['q' => 'What makes it "guilt-less"?', 'a' => 'With high fiber content and better macros than traditional chocolate, COPA is designed for health-conscious snackers.'],
                 ],
                 'external_links' => [
-                    'shopee' => 'https://shopee.co.id/tococochipsofficial',
+                    'shopee' => 'https://shopee.co.id/tococoindonesia',
                     'tiktok' => 'https://www.tiktok.com/@tococoindonesiaofficial'
                 ],
                 'is_active' => true,
