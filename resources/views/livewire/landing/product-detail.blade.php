@@ -81,7 +81,7 @@
                 <!-- Gallery Column (Balanced 50%) -->
                 <div class="space-y-golden-md">
                     <!-- Main Image (Filling the column) -->
-                    <div class="group relative w-full aspect-square rounded-[2rem] overflow-hidden bg-brand-light shadow-xl shadow-brand-emerald/5 transition-all duration-700">
+                    <div class="group relative w-full aspect-square rounded-[2rem] overflow-hidden bg-brand-light shadow-xl shadow-brand-emerald/5 transition-all duration-700 p-golden-lg">
                         <div class="absolute inset-0 bg-gradient-to-t from-brand-charcoal/5 to-transparent pointer-events-none"></div>
                         @php
                             $productImage = null;
@@ -110,7 +110,7 @@
                             }
                         @endphp
                         @if($productImage)
-                            <img :src="currentImage" src="{{ $productImage }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                            <img :src="currentImage" src="{{ $productImage }}" alt="{{ $product->name }}" class="w-full h-full object-contain transition-transform duration-1000 group-hover:scale-105">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-brand-charcoal/5 italic font-black text-9xl uppercase tracking-tighter select-none">
                                 {{ substr($product->name, 0, 2) }}
@@ -141,8 +141,8 @@
                                         }
                                     }
                                 @endphp
-                                <div class="aspect-square rounded-xl overflow-hidden bg-brand-light border border-transparent hover:border-brand-emerald/50 cursor-pointer transition-all hover:scale-105">
-                                    <img src="{{ $galleryImage }}" alt="Gallery Image" class="w-full h-full object-cover">
+                                <div class="aspect-square rounded-xl overflow-hidden bg-brand-light border border-transparent hover:border-brand-emerald/50 cursor-pointer transition-all hover:scale-105 p-2">
+                                    <img src="{{ $galleryImage }}" alt="Gallery Image" class="w-full h-full object-contain">
                                 </div>
                             @endforeach
                         </div>
