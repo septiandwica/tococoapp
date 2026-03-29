@@ -23,7 +23,60 @@
     <!-- Product Showcase -->
     <section class="section-golden pt-12 md:pt-golden-xl overflow-hidden">
         <div class="container-tococo">
-            <div class="grid lg:grid-cols-2 gap-golden-xl md:gap-24 items-start">
+            <div 
+                x-data="{ 
+                    spec: 'Baked',
+                    flavor: 'Original',
+                    isChips: {{ $isChips ? 'true' : 'false' }},
+                    @php
+                        // Pre-calculate fallback image
+                        $fallbackImage = null;
+                        if ($product->image) {
+                            if (str_starts_with($product->image, 'http')) $fallbackImage = $product->image;
+                            elseif (file_exists(public_path($product->image))) $fallbackImage = asset($product->image);
+                            else $fallbackImage = Storage::url($product->image);
+                        }
+                        if (!$fallbackImage) {
+                            $lowName = strtolower($product->name);
+                            if (str_contains($lowName, 'chips')) $fallbackImage = asset('product/tococo.png');
+                            elseif (str_contains($lowName, 'vco') || str_contains($lowName, 'alcoco')) $fallbackImage = asset('product/alcoco.png');
+                            elseif (str_contains($lowName, 'coffee') || str_contains($lowName, 'cocofe')) $fallbackImage = asset('product/cocofe.JPG');
+                            elseif (str_contains($lowName, 'fiber') || str_contains($lowName, 'copa')) $fallbackImage = asset('product/copa.JPG');
+                        }
+                    @endphp
+                    defaultImage: '{{ $fallbackImage }}',
+                    bakedFlavors: {
+                        'Original': 'Pure tropical bliss in every bite — sliced thin and roasted to preserve a natural sweetness and crunchy texture. 100% natural and light.',
+                        'Cinnamon': 'Feel the tropical crunch with a warm, zesty kick! A perfect harmony of toasted coconut and smooth cinnamon flavor.',
+                        'Chocolate': 'A blissful combination of toasted coconut with the rich, sweet aroma of melted chocolate. A melting delight for all ages.'
+                    },
+                    bakedImages: {
+                        'Original': '{{ asset('product/baked-original.jpg') }}',
+                        'Cinnamon': '{{ asset('product/baked-cinamon.jpg') }}',
+                        'Chocolate': '{{ asset('product/baked-chocolate.jpg') }}'
+                    },
+                    friedFlavors: {
+                        'Original Coconut': 'Feel the refreshing crunch of coconut — soft, savory, and aromatic. The ultimate coconut sensation in every bite.',
+                        'Chocolate': 'A blissful combination of toasted coconut with the smooth, sweet aroma of melted chocolate. A melting delight for all ages.',
+                        'Balado': 'Experience the savory coconut crisp upgraded with a spicy-sweet balado seasoning — a perfect blend for snackers who crave bold flavor.',
+                        'Matcha': 'Indulge in coconut crunch paired with premium matcha — a harmonious balance of earthy freshness and tropical indulgence.'
+                    },
+                    get currentFlavors() {
+                        return this.spec === 'Baked' ? this.bakedFlavors : this.friedFlavors;
+                    },
+                    get currentImage() {
+                        if (this.isChips && this.spec === 'Baked' && this.bakedImages[this.flavor]) {
+                            return this.bakedImages[this.flavor];
+                        }
+                        return this.defaultImage;
+                    },
+                    setSpec(s) {
+                        this.spec = s;
+                        this.flavor = Object.keys(this.currentFlavors)[0];
+                    }
+                }"
+                class="grid lg:grid-cols-2 gap-golden-xl md:gap-24 items-start"
+            >
                 
                 <!-- Gallery Column (Balanced 50%) -->
                 <div class="space-y-golden-md">
@@ -57,7 +110,7 @@
                             }
                         @endphp
                         @if($productImage)
-                            <img src="{{ $productImage }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                            <img :src="currentImage" src="{{ $productImage }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
                         @else
                             <div class="w-full h-full flex items-center justify-center text-brand-charcoal/5 italic font-black text-9xl uppercase tracking-tighter select-none">
                                 {{ substr($product->name, 0, 2) }}
@@ -150,28 +203,7 @@
                     @if(!$isCocofe && !$isCopa)
                         <div class="p-golden-base rounded-[2rem] bg-brand-light/50 border border-white backdrop-blur-sm space-y-golden-base">
                             @if($isChips)
-                                <div x-data="{ 
-                                    spec: 'Baked',
-                                    flavor: 'Original',
-                                    bakedFlavors: {
-                                        'Original': 'Pure tropical bliss in every bite — sliced thin and roasted to preserve a natural sweetness and crunchy texture. 100% natural and light.',
-                                        'Cinnamon': 'Feel the tropical crunch with a warm, zesty kick! A perfect harmony of toasted coconut and smooth cinnamon flavor.',
-                                        'Chocolate': 'A blissful combination of toasted coconut with the rich, sweet aroma of melted chocolate. A melting delight for all ages.'
-                                    },
-                                    friedFlavors: {
-                                        'Original Coconut': 'Feel the refreshing crunch of coconut — soft, savory, and aromatic. The ultimate coconut sensation in every bite.',
-                                        'Chocolate': 'A blissful combination of toasted coconut with the smooth, sweet aroma of melted chocolate. A melting delight for all ages.',
-                                        'Balado': 'Experience the savory coconut crisp upgraded with a spicy-sweet balado seasoning — a perfect blend for snackers who crave bold flavor.',
-                                        'Matcha': 'Indulge in coconut crunch paired with premium matcha — a harmonious balance of earthy freshness and tropical indulgence.'
-                                    },
-                                    get currentFlavors() {
-                                        return this.spec === 'Baked' ? this.bakedFlavors : this.friedFlavors;
-                                    },
-                                    setSpec(s) {
-                                        this.spec = s;
-                                        this.flavor = Object.keys(this.currentFlavors)[0];
-                                    }
-                                }" class="space-y-golden-md">
+                                <div class="space-y-golden-md">
                                     
                                     <!-- Specification (Baked/Fried) -->
                                     <div class="space-y-golden-sm">
